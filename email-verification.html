@@ -64,97 +64,17 @@
         .button.secondary:hover {
             background: #e0e0e0;
         }
-        .loading {
-            display: none;
-            margin-top: 20px;
-        }
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #007AFF;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .instructions {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: left;
-        }
-        .instructions h3 {
-            margin-top: 0;
-            color: #333;
-        }
-        .instructions ol {
-            color: #666;
-            line-height: 1.6;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="success-icon">✅</div>
         <h1>¡Email Verificado!</h1>
-        <p>Tu cuenta ha sido verificada exitosamente. Ahora puedes usar todas las funciones de RTC.</p>
+        <p>Tu cuenta ha sido verificada exitosamente. Ahora puedes ingresar a la app RTC e iniciar sesión.</p>
         
-        <button class="button" onclick="showInstructions()">
-            Ver Instrucciones
-        </button>
-        
-        <a href="https://expo.dev/@ignaciosimone/rtc" class="button secondary">
-            Ir a Expo
+        <a href="https://expo.dev/@ignaciosimone/rtc" class="button">
+            Ir a la App
         </a>
-        
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Abriendo la aplicación...</p>
-        </div>
-        
-        <div class="instructions" id="instructions" style="display: none;">
-            <h3>📱 Pasos para completar la verificación:</h3>
-            <ol>
-                <li><strong>Abre Expo Go</strong> en tu dispositivo</li>
-                <li><strong>Haz clic en "Enter URL manually"</strong></li>
-                <li><strong>Copia y pega esta URL:</strong></li>
-                <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; word-break: break-all;">
-                    exp://192.168.100.136:8082/--/login
-                </div>
-                <li><strong>Haz clic en "Connect"</strong></li>
-                <li><strong>Tu email será verificado automáticamente</strong></li>
-            </ol>
-            <p style="color: #666; font-size: 14px; margin-top: 15px;">
-                💡 <strong>Tip:</strong> Asegúrate de que tu Mac y tu dispositivo estén en la misma red Wi-Fi.
-            </p>
-        </div>
     </div>
-
-    <script>
-        function showInstructions() {
-            const instructions = document.getElementById('instructions');
-            const button = document.querySelector('button');
-            
-            if (instructions.style.display === 'none') {
-                instructions.style.display = 'block';
-                button.textContent = 'Ocultar Instrucciones';
-            } else {
-                instructions.style.display = 'none';
-                button.textContent = 'Ver Instrucciones';
-            }
-        }
-        
-        // Mostrar instrucciones automáticamente al cargar la página
-        window.onload = function() {
-            setTimeout(() => {
-                showInstructions();
-            }, 1000);
-        };
-    </script>
 </body>
 </html>
