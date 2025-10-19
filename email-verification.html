@@ -104,8 +104,8 @@
         <h1>¡Email Verificado!</h1>
         <p>Tu cuenta ha sido verificada exitosamente. Ahora puedes usar todas las funciones de RTC.</p>
         
-        <button class="button" onclick="openApp()">
-            Abrir App RTC
+        <button class="button" onclick="showInstructions()">
+            Ver Instrucciones
         </button>
         
         <a href="https://expo.dev/@ignaciosimone/rtc" class="button secondary">
@@ -117,54 +117,42 @@
             <p>Abriendo la aplicación...</p>
         </div>
         
-        <div class="instructions">
-            <h3>📱 Si no se abre automáticamente:</h3>
+        <div class="instructions" id="instructions" style="display: none;">
+            <h3>📱 Pasos para completar la verificación:</h3>
             <ol>
-                <li>Asegúrate de tener <strong>Expo Go</strong> instalado</li>
-                <li>Verifica que la app RTC esté ejecutándose</li>
-                <li>Escanea el QR code desde Expo Go</li>
-                <li>O usa el botón "Ir a Expo" arriba</li>
+                <li><strong>Abre Expo Go</strong> en tu dispositivo</li>
+                <li><strong>Haz clic en "Enter URL manually"</strong></li>
+                <li><strong>Copia y pega esta URL:</strong></li>
+                <div style="background: #f0f0f0; padding: 10px; border-radius: 5px; margin: 10px 0; font-family: monospace; word-break: break-all;">
+                    exp://192.168.100.136:8082/--/login
+                </div>
+                <li><strong>Haz clic en "Connect"</strong></li>
+                <li><strong>Tu email será verificado automáticamente</strong></li>
             </ol>
+            <p style="color: #666; font-size: 14px; margin-top: 15px;">
+                💡 <strong>Tip:</strong> Asegúrate de que tu Mac y tu dispositivo estén en la misma red Wi-Fi.
+            </p>
         </div>
     </div>
 
     <script>
-        function openApp() {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'block';
+        function showInstructions() {
+            const instructions = document.getElementById('instructions');
+            const button = document.querySelector('button');
             
-            // Obtener la IP local del usuario (esto es una aproximación)
-            const userIP = window.location.hostname === 'localhost' ? '192.168.100.136' : window.location.hostname;
-            
-            // Intentar abrir con Expo Go usando la IP local y puerto correcto
-            const expoUrl = `exp://${userIP}:8082/--/login`;
-            
-            console.log('Intentando abrir:', expoUrl);
-            
-            // Crear un iframe oculto para intentar abrir la app
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            iframe.src = expoUrl;
-            document.body.appendChild(iframe);
-            
-            // Si no se abre en 3 segundos, mostrar mensaje
-            setTimeout(() => {
-                loading.style.display = 'none';
-                alert('No se pudo abrir la aplicación automáticamente.\n\nPor favor:\n1. Abre Expo Go\n2. Escanea el QR code de tu proyecto\n3. O usa el botón "Ir a Expo"');
-            }, 3000);
-            
-            // Limpiar el iframe después de un tiempo
-            setTimeout(() => {
-                if (document.body.contains(iframe)) {
-                    document.body.removeChild(iframe);
-                }
-            }, 5000);
+            if (instructions.style.display === 'none') {
+                instructions.style.display = 'block';
+                button.textContent = 'Ocultar Instrucciones';
+            } else {
+                instructions.style.display = 'none';
+                button.textContent = 'Ver Instrucciones';
+            }
         }
         
-        // Intentar abrir automáticamente al cargar la página
+        // Mostrar instrucciones automáticamente al cargar la página
         window.onload = function() {
             setTimeout(() => {
-                openApp();
+                showInstructions();
             }, 1000);
         };
     </script>
