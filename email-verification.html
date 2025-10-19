@@ -136,8 +136,8 @@
             // Obtener la IP local del usuario (esto es una aproximación)
             const userIP = window.location.hostname === 'localhost' ? '192.168.100.136' : window.location.hostname;
             
-            // Intentar abrir con Expo Go usando la IP local
-            const expoUrl = `exp://${userIP}:8081/--/login`;
+            // Intentar abrir con Expo Go usando la IP local y puerto correcto
+            const expoUrl = `exp://${userIP}:8082/--/login`;
             
             console.log('Intentando abrir:', expoUrl);
             
