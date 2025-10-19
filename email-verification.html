@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verificado - RTC</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        .success-icon {
+            font-size: 60px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background: #0056CC;
+            transform: translateY(-2px);
+        }
+        .button.secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .button.secondary:hover {
+            background: #e0e0e0;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #007AFF;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .instructions {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        .instructions h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .instructions ol {
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1>¡Email Verificado!</h1>
+        <p>Tu cuenta ha sido verificada exitosamente. Ahora puedes usar todas las funciones de RTC.</p>
+        
+        <button class="button" onclick="openApp()">
+            Abrir App RTC
+        </button>
+        
+        <a href="https://expo.dev/@ignaciosimone/rtc" class="button secondary">
+            Ir a Expo
+        </a>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Abriendo la aplicación...</p>
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 Si no se abre automáticamente:</h3>
+            <ol>
+                <li>Asegúrate de tener <strong>Expo Go</strong> instalado</li>
+                <li>Verifica que la app RTC esté ejecutándose</li>
+                <li>Escanea el QR code desde Expo Go</li>
+                <li>O usa el botón "Ir a Expo" arriba</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function openApp() {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'block';
+            
+            // Obtener la IP local del usuario (esto es una aproximación)
+            const userIP = window.location.hostname === 'localhost' ? '192.168.1.100' : window.location.hostname;
+            
+            // Intentar abrir con Expo Go usando la IP local
+            const expoUrl = `exp://${userIP}:8081/--/login`;
+            
+            console.log('Intentando abrir:', expoUrl);
+            
+            // Crear un iframe oculto para intentar abrir la app
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = expoUrl;
+            document.body.appendChild(iframe);
+            
+            // Si no se abre en 3 segundos, mostrar mensaje
+            setTimeout(() => {
+                loading.style.display = 'none';
+                alert('No se pudo abrir la aplicación automáticamente.\n\nPor favor:\n1. Abre Expo Go\n2. Escanea el QR code de tu proyecto\n3. O usa el botón "Ir a Expo"');
+            }, 3000);
+            
+            // Limpiar el iframe después de un tiempo
+            setTimeout(() => {
+                if (document.body.contains(iframe)) {
+                    document.body.removeChild(iframe);
+                }
+            }, 5000);
+        }
+        
+        // Intentar abrir automáticamente al cargar la página
+        window.onload = function() {
+            setTimeout(() => {
+                openApp();
+            }, 1000);
+        };
+    </script>
+</body>
+</html>
